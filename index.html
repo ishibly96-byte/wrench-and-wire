@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Wrench & Wire Recruiting — Trades-only recruiting for plumbers and electricians. Flat fees. 60-day backup guarantee." />
+  <title>Wrench & Wire Recruiting</title>
+  <link rel="icon" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    window.initHeroAnimation = function() {
+      const canvas = document.getElementById('hero-bg-canvas');
+      if (!canvas || canvas.dataset.initialized) return;
+      canvas.dataset.initialized = 'true';
+
+      const ctx = canvas.getContext('2d');
+      const frameCount = 192;
+      const images = [];
+      let currentFrame = 1;
+      let animationId = null;
+      
+      const resize = () => {
+        const hero = document.getElementById('hero-section');
+        if (hero && canvas) {
+          canvas.width = hero.clientWidth;
+          canvas.height = hero.clientHeight;
+        }
+      };
+      window.addEventListener('resize', resize);
+      resize();
+
+      // Preload images
+      for (let i = 1; i <= frameCount; i++) {
+        const img = new Image();
+        const frameNum = String(i).padStart(3, '0');
+        img.src = `/bg-animation/ezgif-frame-${frameNum}.jpg`;
+        images.push(img);
+      }
+
+      function update() {
+        if (!document.getElementById('hero-bg-canvas')) {
+          cancelAnimationFrame(animationId);
+          return;
+        }
+
+        const img = images[currentFrame - 1];
+        if (img && img.complete) {
+          const imgRatio = img.width / img.height;
+          const canvasRatio = canvas.width / canvas.height;
+          let drawW, drawH, drawX, drawY;
+
+          if (imgRatio > canvasRatio) {
+            drawH = canvas.height;
+            drawW = canvas.height * imgRatio;
+            drawX = (canvas.width - drawW) / 2;
+            drawY = 0;
+          } else {
+            drawW = canvas.width;
+            drawH = canvas.width / imgRatio;
+            drawX = 0;
+            drawY = (canvas.height - drawH) / 2;
+          }
+
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, drawX, drawY, drawW, drawH);
+        }
+
+        currentFrame = (currentFrame % frameCount) + 1;
+        animationId = requestAnimationFrame(update);
+      }
+
+      setTimeout(() => {
+        animationId = requestAnimationFrame(update);
+      }, 100);
+    };
+  </script>
+  <script type="module" crossorigin src="/assets/index-AhMLLu4I.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-Bdh9q5g4.css">
+</head>
+<body>
+  <div id="app"></div>
+</body>
+</html>
